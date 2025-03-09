@@ -10,9 +10,6 @@ namespace JwtApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddRazorPages();
-
 
             //Add JwtBearer services to container.
             builder.Services.AddAuthentication(options =>
@@ -32,7 +29,12 @@ namespace JwtApp
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                 };
             });
-            
+
+            builder.Services.AddMvc();
+            builder.Services.AddControllers();
+
+            // Add services to the container.
+            builder.Services.AddRazorPages();
 
             var app = builder.Build();
 
@@ -49,8 +51,12 @@ namespace JwtApp
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
+
+            app.MapControllers();
             app.MapRazorPages();
 
             app.Run();
