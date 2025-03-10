@@ -17,11 +17,11 @@ namespace JwtApp.Controllers
         }
 
         [HttpGet("Admin")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult AdminArea()
         {
             var validUser = GetValidUser();
-            return Ok($"Hello {validUser.UserName } , You are a {validUser.Role }");
+            return Ok($"Hello {validUser.UserName } , You are a {validUser.Role }, This board for administrator only");
 
         }
 
